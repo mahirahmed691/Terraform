@@ -29,7 +29,8 @@ resource "google_compute_instance" "default" {
 
 		scripts = [
 				"scripts/test1",
-				"scripts/test2"
+				"scripts/test2",
+				"scripts/python_server"
 			]
 		}
 }
