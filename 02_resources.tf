@@ -1,36 +1,38 @@
-resource "google_compute_instance" "default" {
-	name = "test"
-	machine_type = "n1-standard-1"
-	zone = "europe-west2-c"
+source "google_compute_instance" "default" {
+	name = "${var.name}"
+	machine_type = "${var.machine_type}"
+	zone = "${var.zone}"
 	boot_disk {
 		initialize_params {
-			image = "centos-7"
+			image = "${var.image}"
 		}
 	}
-
 	network_interface {
-		network = "default"
+		network = "${var.network}"
 		access_config {
 			// Ephemeral IP
 		}
 	}
-
-	metadata {	
-		sshKeys = "terraform:${file("~/.ssh/id_rsa.pub")}"
-	}
-
+	metadata {
+    	sshKeys = "${var.ssh_user}:${file("${var.public_key}")}"
+  	}	
 	provisioner "remote-exec" {
 		connection = {
-			type =  "ssh"
-			user = "terraform"
-			private_key = "${file("~/.ssh/id_rsa")}"
+			type = "ssh"
+			user = "${var.ssh_user}"
+			private_key = "${file("${var.private_key}")}"
 		}
-
-
-		scripts = [
-				"scripts/test1",
-				"scripts/test2",
-				"scripts/python_server"
-			]
+		inline = [
+			"${lookup(var.update_packages, var.package_manager)}",
+			"${lookup(var.install_packages, var.package_manager)} ${join(" ", var.packages)}"
+		]
+	}
+	provisioner "remote-exec" {
+		connection = {
+			type = "ssh"
+			user = "${var.ssh_user}"
+			private_key = "${file("${var.private_key}")}"
 		}
+		scripts = "${var.scripts}"
+	}
 }
