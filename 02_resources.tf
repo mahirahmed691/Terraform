@@ -25,8 +25,11 @@ resource "google_compute_instance" "default" {
 			user = "terraform"
 			private_key = "${file("~/.ssh/id_rsa")}"
 		}
-		inline = [
-			"sudo yum update -y"
-		]
-	}
+
+
+		scripts = [
+				"scripts/test1",
+				"scripts/test2"
+			]
+		}
 }
