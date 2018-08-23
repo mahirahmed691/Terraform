@@ -34,6 +34,15 @@ variable "package_manager" {
   default = "yum"
 }
 
+variable "allowed_ports" {
+	type = "list"
+	default = ["22", "8000", "9000", "8080"]
+}
+
+variable "allowed-ips" {
+	default = ["0.0.0.0/0"]
+}	
+
 variable "update_packages" {
   default = {
     "yum" = "sudo yum update -y"

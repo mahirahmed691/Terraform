@@ -17,6 +17,8 @@ resource "google_compute_instance" "default" {
     }
   }
 
+  tags = ["${var.name}"]
+
   metadata {
     sshKeys = "${var.ssh_user}:${file("${var.public_key}")}"
   }
