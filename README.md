@@ -20,6 +20,6 @@ If the command is given an existing saved plan as an argument, the command will 
 
 By default, apply scans the current directory for the configuration and applies the changes appropriately. However, a path to another configuration or an execution plan can be provided. Explicit execution plans files can be used to split plan and apply into separate steps within automation systems. 
 
-`teraform destroy`
+`terraform destroy`
 
 Infrastructure managed by Terraform will be destroyed. This will ask for confirmation before destroying.
